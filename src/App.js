@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Globalstyle } from './Globalstyle';
+import * as S from './style';
 
-function App() {
+export default function App() {
+
+  const [dog, setDog] = useState();
+  const [status, setStatus] = useState(false);
+
+  function getDog() {
+    axios.get('https://dog.ceo/api/breeds/image/random').then((response) => {
+      setDog(response.data.message);
+      setStatus(true);
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <S.Main>
+      <Globalstyle />
+      {status && <img src={dog} alt='Um doguinho'/>}
+      <button onClick={() => {getDog()}}> Clique aqui</button>
+    </S.Main>
+  )
 }
-
-export default App;
